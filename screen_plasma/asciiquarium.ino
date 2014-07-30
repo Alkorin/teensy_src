@@ -64,7 +64,7 @@ void FASTRUN asciiquarium()
   for(int x = 0; x < 53; x++)
   {
     mapQuariumString[x][0].c = '~';
-    mapQuariumString[x][0].color = 0x07FF;
+    mapQuariumString[x][0].color = 14;
   }
   for(int y = 0; y < 3; y++)
   {
@@ -76,7 +76,7 @@ void FASTRUN asciiquarium()
     for(unsigned int x = 0; x < 53; x++)
     {
       mapQuariumString[x][y+1].c = waterMap[y][(x+waterOffset[y])%32];
-      mapQuariumString[x][y+1].color = 0x07FF;
+      mapQuariumString[x][y+1].color = 14;
     }
   }
   
@@ -104,7 +104,7 @@ void FASTRUN asciiquarium()
         if(posX >=0 && posX < 53 && posY >= 0 && posY < 30)
         {
           mapQuariumString[posX][posY].c = c;
-          mapQuariumString[posX][posY].color = 0xFFFF;
+          mapQuariumString[posX][posY].color = 15;
         }
         x++;
       } 
@@ -125,7 +125,7 @@ void FASTRUN asciiquarium()
         for(int pixel = 0; pixel < 5; pixel++)
         {
           unsigned char fontData = font[(c*5)+pixel];
-          uint16_t color = (fontData&(1<<(subY)))?mapQuariumString[x][mapY].color:0x0000;
+          uint16_t color = (fontData&(1<<(subY)))?colorMap[mapQuariumString[x][mapY].color]:0x0000;
           
           while (((SPI0.SR) & (15 << 12)) > (3 << 12)) ;
           SPI0_PUSHR = (color) | (0x00010000) | SPI_PUSHR_CTAS(1);

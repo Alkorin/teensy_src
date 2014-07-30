@@ -15,5 +15,5 @@ typedef struct {
 
 typedef struct {
   char c;
-  uint16_t color;
+  uint8_t color;
 } mapStringElm;

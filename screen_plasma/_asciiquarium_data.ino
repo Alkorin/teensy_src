@@ -68,4 +68,23 @@ const char * waterMap[] = {
   "^^      ^^^^      ^^^    ^^^^^^ ",
 };
 
+uint16_t colorMap[] = {
+  0x0000,  // Black
+  0xc800,  // Red
+  0x0660,  // Green
+  0xce60,  // Yellow
+  0x0019,  // Blue
+  0xc819,  // Magenta
+  0x0679,  // Cyan
+  0xe73c,  // Gray
+  0x7bef,  // Dark Gray
+  0xf800,  // Red
+  0x07e0,  // Green
+  0xffe0,  // Yellow
+  0x5aff,  // Blue
+  0xf81f,  // Magenta
+  0x07ff,  // Cyan
+  0xffff,  // White
+};
+
 #endif
