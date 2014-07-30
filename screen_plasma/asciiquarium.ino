@@ -7,6 +7,8 @@ fishElm fishes[5];
 #define NB_FISHES       (sizeof(fishes)/sizeof(fishElm))
 #define NB_DIFF_FISHES  (sizeof(fishesArray)/sizeof(fishData *))
 
+int8_t waterOffset[3]={0,0,0};
+
 mapStringElm mapQuariumString[53][30];
 
 void FASTRUN newFish(fishElm & fish)
@@ -55,14 +57,21 @@ void FASTRUN asciiquarium()
   memset(mapQuariumString, 0, sizeof(mapQuariumString));
   
   // Draw water
-  for(int y = 0; y < 4; y++)
+  for(int x = 0; x < 53; x++)
   {
+    mapQuariumString[x][0].c = '~';
+    mapQuariumString[x][0].color = 0x07FF;
+  }
+  for(int y = 0; y < 3; y++)
+  {
+    waterOffset[y] += rand()%3 - 1; // Add -1, 0, +1
     for(int x = 0; x < 53; x++)
     {
-      mapQuariumString[x][y].c = waterMap[y][x];
-      mapQuariumString[x][y].color = 0x07FF;
+      mapQuariumString[x][y+1].c = waterMap[y][(x+waterOffset[y])%32];
+      mapQuariumString[x][y+1].color = 0x07FF;
     }
-  }  
+  }
+  
   // Draw fishes
   for(unsigned int f = 0; f < NB_FISHES; f++)
   {
