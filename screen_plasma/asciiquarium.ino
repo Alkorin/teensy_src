@@ -37,6 +37,10 @@ void asciiquarium_init()
 
 void FASTRUN asciiquarium()
 {
+  // Elapsed time
+  static unsigned int time = 0;
+  time++;
+  
   // Update fishes
   for(unsigned int f = 0; f < NB_FISHES; f++)
   {
@@ -64,7 +68,11 @@ void FASTRUN asciiquarium()
   }
   for(int y = 0; y < 3; y++)
   {
-    waterOffset[y] += rand()%3 - 1; // Add -1, 0, +1
+    if(!(time%8))
+    {
+      // Add -1, 0, +1 each 8 frames
+      waterOffset[y] += rand()%3 - 1;
+    }
     for(int x = 0; x < 53; x++)
     {
       mapQuariumString[x][y+1].c = waterMap[y][(x+waterOffset[y])%32];
