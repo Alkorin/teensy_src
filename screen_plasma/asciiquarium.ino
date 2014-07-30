@@ -25,6 +25,7 @@ void FASTRUN newFish(fishElm & fish)
     }
     fish.y = 4 + fish.fish->height/2 + rand()%(30 - 4 - fish.fish->height);
     fish.subPos = 0;
+    fish.color  = 1+rand()%14;
 }
 
 void asciiquarium_init()
@@ -104,7 +105,7 @@ void FASTRUN asciiquarium()
         if(posX >=0 && posX < 53 && posY >= 0 && posY < 30)
         {
           mapQuariumString[posX][posY].c = c;
-          mapQuariumString[posX][posY].color = 15;
+          mapQuariumString[posX][posY].color = fishToDraw.color;
         }
         x++;
       } 
