@@ -47,18 +47,16 @@ int drawingMemory[ledsPerStrip*6];
 
 OctoWS2811 leds(ledsPerStrip, displayMemory, drawingMemory, WS2811_GRB | WS2811_800kHz);
 
-//const int rainbowColors[30] = { 0x00050000,0x00050100,0x00050200,0x00050300,0x00050400,0x00050500,0x00040500,0x00030500,0x00020500,0x00010500,0x00000500,0x00000501,0x00000502,0x00000503,0x00000504,0x00000505,0x00000405,0x00000305,0x00000205,0x00000105,0x00000005,0x00010005,0x00020005,0x00030005,0x00040005,0x00050005,0x00050004,0x00050003,0x00050002,0x00050001 };
+int rainbowColors[30];
 const int ledPin = 13;
-
-int rainbowColors[360];
 
 void setup() {
     pinMode(ledPin, OUTPUT);
 
-  for (int i=0; i<360; i++) {
-    int hue = i;
+  for (int i=0; i<30; i++) {
+    int hue = i*12;
     int saturation = 100;
-    int lightness = 20;
+    int lightness = 1;
     // pre-compute the 180 rainbow colors
     rainbowColors[i] = makeColor(hue, saturation, lightness);
   }
@@ -85,9 +83,9 @@ void loop() {
   digitalWrite(ledPin, HIGH);
   color++;
   for (int x=0; x < 32; x++) {
-    for (int y=0; y < 8; y++) {
-      int index = color + ((x*2-centerX)*(x*2-centerX) + (y*2-centerY)*(y*2-centerY))/4;
-      leds.setPixel(getPos(x,y), rainbowColors[index%360]);
+    for (int y=0; y < 16; y++) {
+      int index = color/6 + ((x*2-centerX)*(x*2-centerX) + (y*2-centerY)*(y*2-centerY))/24;
+      leds.setPixel(getPos(x,y), rainbowColors[index%30]);
     }
   }
   digitalWrite(ledPin, LOW);
