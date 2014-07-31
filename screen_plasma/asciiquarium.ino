@@ -13,19 +13,19 @@ mapStringElm mapQuariumString[53][30];
 
 void FASTRUN newFish(fishElm & fish)
 {
-    fish.fish = fishesArray[rand()%NB_DIFF_FISHES];
-    fish.speed = 1 + rand()%5;
-    if(fish.fish->dir == -1)
-    {
-      fish.x = 53 + fish.fish->width/2 + rand()%5;
-    }
-    else
-    {
-      fish.x = 0 - fish.fish->width/2 - rand()%5;
-    }
-    fish.y = 4 + fish.fish->height/2 + rand()%(30 - 4 - fish.fish->height);
-    fish.subPos = 0;
-    fish.color  = 1+rand()%14;
+  fish.fish = fishesArray[rand()%NB_DIFF_FISHES];
+  fish.speed = 1 + rand()%5;
+  if(fish.fish->dir == -1)
+  {
+    fish.x = 53 + fish.fish->width/2 + rand()%5;
+  }
+  else
+  {
+    fish.x = 0 - fish.fish->width/2 - rand()%5;
+  }
+  fish.y = 4 + fish.fish->height/2 + rand()%(30 - 4 - fish.fish->height);
+  fish.subPos = 0;
+  fish.color  = 1+rand()%14;
 }
 
 void asciiquarium_init()
