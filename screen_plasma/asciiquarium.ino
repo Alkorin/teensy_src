@@ -25,7 +25,7 @@ void FASTRUN newFish(fishElm & fish)
   }
   fish.y = 4 + fish.fish->height/2 + rand()%(30 - 4 - fish.fish->height);
   fish.subPos = 0;
-  fish.color  = 1+rand()%14;
+  fish.color  = rand();
 }
 
 void asciiquarium_init()
@@ -86,6 +86,7 @@ void FASTRUN asciiquarium()
   {
     fishElm const& fishToDraw = fishes[f];
     const char * fishImage = fishToDraw.fish->image;
+    const uint8_t * fishColorMap = fishToDraw.fish->colorMap;
     int x = 0; int y = 0; char c;
     
     while((c = *fishImage++))
@@ -102,10 +103,16 @@ void FASTRUN asciiquarium()
       {
         int8_t posX = fishToDraw.x - fishToDraw.fish->width/2 + x;
         int8_t posY = fishToDraw.y - fishToDraw.fish->height/2 + y;
+        uint8_t color = 0;
+        if(c != ' ')
+        {
+          color = 1+((*fishColorMap++) + fishToDraw.color)%14;
+        }
+        
         if(posX >=0 && posX < 53 && posY >= 0 && posY < 30)
         {
           mapQuariumString[posX][posY].c = c;
-          mapQuariumString[posX][posY].color = fishToDraw.color;
+          mapQuariumString[posX][posY].color = color;
         }
         x++;
       } 

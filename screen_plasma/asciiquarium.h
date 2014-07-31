@@ -1,8 +1,9 @@
 typedef struct {
-  unsigned char width;
-  unsigned char height;
-  int8_t        dir;
-  const char *  image;
+  unsigned char   width;
+  unsigned char   height;
+  int8_t          dir;
+  const char *    image;
+  const uint8_t * colorMap;
 } fishData;
 
 typedef struct {
