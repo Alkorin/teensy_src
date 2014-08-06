@@ -224,7 +224,8 @@ const fishData f16 = {
   .colorMap = fish16ColorMap,
 };
 
-const fishData * fishesArray[] = { &f1, &f2, &f3, &f4, &f5, &f6, &f7, &f8, &f9, &f10, &f11, &f12, &f13, &f14, &f15, &f16 };
+#define NB_DIFF_FISHES 16
+const fishData * fishesArray[NB_DIFF_FISHES] = { &f1, &f2, &f3, &f4, &f5, &f6, &f7, &f8, &f9, &f10, &f11, &f12, &f13, &f14, &f15, &f16 };
 
 const char * waterMap[] = {
   "^^^^ ^^^  ^^^   ^^^    ^^^^     ",

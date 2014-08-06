@@ -6,8 +6,6 @@ extern const unsigned char font[];
 
 fishElm fishes[NB_FISHES];
 
-#define NB_DIFF_FISHES  (sizeof(fishesArray)/sizeof(fishData *))
-
 uint8_t waterOffset[3]={0,0,0};
 
 mapStringElm mapQuariumString[53][30];
