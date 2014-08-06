@@ -1,3 +1,5 @@
+extern const unsigned char font[];
+
 typedef struct {
   unsigned char   width;
   unsigned char   height;

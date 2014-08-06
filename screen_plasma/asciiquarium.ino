@@ -2,8 +2,6 @@
 
 #define NB_FISHES 5
 
-extern const unsigned char font[];
-
 fishElm fishes[NB_FISHES];
 
 uint8_t waterOffset[3]={0,0,0};
