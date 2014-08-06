@@ -1,10 +1,11 @@
 #ifdef ASCIIQUARIUM
 
+#define NB_FISHES 5
+
 extern const unsigned char font[];
 
-fishElm fishes[5];
+fishElm fishes[NB_FISHES];
 
-#define NB_FISHES       (sizeof(fishes)/sizeof(fishElm))
 #define NB_DIFF_FISHES  (sizeof(fishesArray)/sizeof(fishData *))
 
 uint8_t waterOffset[3]={0,0,0};
