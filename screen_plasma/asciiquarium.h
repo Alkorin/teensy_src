@@ -7,9 +7,9 @@ typedef struct {
 } fishData;
 
 typedef struct {
-  int16_t x;
-  int16_t y;
-  int16_t speed;
+  int8_t x;
+  int8_t y;
+  int8_t speed;
   int8_t  subPos;
   uint8_t color;
   const   fishData * fish;
