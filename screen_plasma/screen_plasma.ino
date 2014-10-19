@@ -1,32 +1,25 @@
 #include <SPI.h>
-#include <Adafruit_GFX.h>
-#include <TFT_ILI9340.h>
-#include "asciiquarium.h"
+#include <ILI9341_t3.h>
 
-#define ASCIIQUARIUM
+#define PLASMA
 
 #define __CS 10
 #define __DC 9
 
-TFT_ILI9340 tft = TFT_ILI9340(__CS, __DC);
+ILI9341_t3 tft = ILI9341_t3(__CS, __DC);
 
 void setup() {
   tft.begin();
-  tft.setBitrate(24000000);
-  
-  asciiquarium_init();
-  
-  tft.setRotation(1);
-  tft.setTextColor(0xFFFF,0x0000);
+  tft.setRotation(0);
+  tft.setTextColor(0xFFFF, 0x0000);
 }
 
 void loop(void) {
-  
-//  unsigned int startTime = micros();
-  asciiquarium();
-//  unsigned int endTime = micros();
+  //unsigned int startTime = micros();
+  plasma1();
+  //unsigned int endTime = micros();
 
-//  tft.setCursor(0, 232);
-//  tft.printf("%06d", endTime - startTime);
+  //tft.setCursor(0, 312);
+  //tft.printf("%06d", endTime - startTime);
 }
 
