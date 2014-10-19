@@ -100,7 +100,7 @@ void asciiquarium()
     }
   }
   
-  // Draw fishes
+  // Draw fishes in mapQuariumString
   for(unsigned int f = 0; f < NB_FISHES; f++)
   {
     fishElm const& fishToDraw = fishes[f];
@@ -138,12 +138,12 @@ void asciiquarium()
     }
   }
   
-  // Draw on screen
+  // Render mapQuariumString on screen
   tft.setAddrWindow(0,0,319,239);
   // For each line
   for(int mapY = 0; mapY < 30; mapY++)
   {
-    // Line 1 to 7
+    // Line 0 to 7
     for(int subY = 0; subY < 8; subY++)
     {
       for(int x = 0; x < 53; x++)
@@ -153,19 +153,14 @@ void asciiquarium()
         {
           unsigned char fontData = font[(c*5)+pixel];
           uint16_t color = (fontData&(1<<(subY)))?colorMap[mapQuariumString[x][mapY].color]:0x0000;
-          
-          while (((SPI0.SR) & (15 << 12)) > (3 << 12)) ;
-          SPI0_PUSHR = (color) | (0x00010000) | SPI_PUSHR_CTAS(1);
+          PUSH_COLOR(color);
         }
-        while (((SPI0.SR) & (15 << 12)) > (3 << 12)) ;
-        SPI0_PUSHR = (0) | (0x00010000) | SPI_PUSHR_CTAS(1);
+        // Black column between each chars
+        PUSH_COLOR(0x00);
       }
-      // Filler for end of screen
-      for(int pixel = 0; pixel < 2; pixel++)
-      {
-        while (((SPI0.SR) & (15 << 12)) > (3 << 12)) ;
-        SPI0_PUSHR = (0) | (0x00010000) | SPI_PUSHR_CTAS(1);
-      }
+      // Filler for end of screen (2 last column of each line)
+      PUSH_COLOR(0);
+      PUSH_COLOR(0);
     }
   }
 }
