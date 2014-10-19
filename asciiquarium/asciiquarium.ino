@@ -1,14 +1,36 @@
-#ifdef ASCIIQUARIUM
+#include <SPI.h>
+#include <ILI9341_t3.h>
+#include "asciiquarium.h"
 
-#define NB_FISHES 5
+#define __CS 10
+#define __DC 9
 
+// global vars
+ILI9341_t3 tft = ILI9341_t3(__CS, __DC);
 fishElm fishes[NB_FISHES];
-
+mapStringElm mapQuariumString[53][30];
 uint8_t waterOffset[3]={0,0,0};
 
-mapStringElm mapQuariumString[53][30];
+void setup() {
+  tft.begin();
+  
+  asciiquarium_init();
+  
+  tft.setRotation(1);
+  tft.setTextColor(0xFFFF,0x0000);
+}
 
-void FASTRUN newFish(fishElm & fish)
+void loop(void) {
+  
+  //unsigned int startTime = micros();
+  asciiquarium();
+  //unsigned int endTime = micros();
+
+  //tft.setCursor(0, 232);
+  //tft.printf("%06d", endTime - startTime);
+}
+
+void newFish(fishElm & fish)
 {
   fish.fish = fishesArray[rand()%NB_DIFF_FISHES];
   fish.speed = 1 + rand()%5;
@@ -33,7 +55,7 @@ void asciiquarium_init()
   }
 }
 
-void FASTRUN asciiquarium()
+void asciiquarium()
 {
   // Elapsed time
   static unsigned int time = 0;
@@ -148,4 +170,3 @@ void FASTRUN asciiquarium()
   }
 }
 
-#endif

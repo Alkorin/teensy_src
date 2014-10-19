@@ -1,12 +1,12 @@
-extern const unsigned char font[];
+#ifndef _ASCIIQUARIUM_H_
+#define _ASCIIQUARIUM_H_
 
-typedef struct {
-  unsigned char   width;
-  unsigned char   height;
-  int8_t          dir;
-  const char *    image;
-  const uint8_t * colorMap;
-} fishData;
+#include "Arduino.h"
+#include "asciiquarium_data.h"
+
+#define NB_FISHES 5
+
+extern const unsigned char font[];
 
 typedef struct {
   int8_t x;
@@ -21,3 +21,5 @@ typedef struct {
   char c;
   uint8_t color;
 } mapStringElm;
+
+#endif
