@@ -8,6 +8,7 @@
 // global vars
 ILI9341_t3 tft = ILI9341_t3(__CS, __DC);
 fishElm fishes[NB_FISHES];
+bubbleElm bubbles[NB_BUBBLES];
 mapStringElm mapQuariumString[53][30];
 uint8_t waterOffset[3]={0,0,0};
 
@@ -47,11 +48,47 @@ void newFish(fishElm & fish)
   fish.color  = rand();
 }
 
+void newBubble(fishElm const& fish)
+{
+  // Find an empty bubble
+  for(unsigned int b = 0; b < NB_BUBBLES; b++)
+  {
+    if(bubbles[b].speed == 0)
+    {
+      // Bubble spawn on top of fish
+      int posX, posY;
+      if(fish.fish->dir == -1)
+      {
+        posX = fish.x - fish.fish->width/2;
+      }
+      else
+      {
+        posX = fish.x + fish.fish->width/2;
+      }
+      posY = fish.y - 1;
+      if(posX >=0 && posX < 53 && posY >= 0 && posY < 30)
+      {
+        bubbles[b].x = posX;
+        bubbles[b].y = posY;
+        bubbles[b].startY = posY;
+        bubbles[b].subPos = 0;
+        bubbles[b].speed = 2;
+      }
+      
+      break;
+    }
+  }
+}
+
 void asciiquarium_init()
 {
   for(unsigned int f = 0; f < NB_FISHES; f++)
   {
     newFish(fishes[f]);
+  }
+  for(unsigned int b = 0; b < NB_BUBBLES; b++)
+  {
+    bubbles[b].speed = 0; // 0 means no bubble
   }
 }
 
@@ -79,6 +116,27 @@ void asciiquarium()
     {
       newFish(fishes[f]);
     }
+    
+    // Spawn bubbles
+    if(rand() > ((RAND_MAX/100) * 95)) // 5% luck to spawn bubble
+    {
+      newBubble(fishes[f]);
+    }
+  }
+  
+  // Update bubbles
+  for(unsigned int b = 0; b < NB_BUBBLES; b++)
+  {
+    bubbleElm & bubble = bubbles[b];
+    if(bubble.speed)
+    {
+      bubble.subPos++;
+      if(bubble.subPos == bubbles[b].speed)
+      {
+        bubble.y -= 1;
+        bubble.subPos = 0;
+      }
+    }
   }
 
   /*****************/
@@ -105,6 +163,26 @@ void asciiquarium()
     {
       mapQuariumString[x][y+1].c = waterMap[y][(x+waterOffset[y])%32];
       mapQuariumString[x][y+1].color = 14;
+    }
+  }
+  
+  // Draw bubbles
+  for(unsigned int b = 0; b < NB_BUBBLES; b++)
+  {
+    bubbleElm & bubble = bubbles[b];
+    if(bubble.speed)
+    {
+      if(mapQuariumString[bubble.x][bubble.y].c == '~' || mapQuariumString[bubble.x][bubble.y].c == '^')
+      {
+        // Bubble hit water level, delete it
+        bubble.speed = 0;
+      }
+      else
+      {
+        int size = (3 *(bubble.startY - bubble.y)) / (bubble.startY - 3);
+        mapQuariumString[bubble.x][bubble.y].c = (size == 0 ? '.' : (size == 1 ? 'o' : 'O'));
+        mapQuariumString[bubble.x][bubble.y].color = 14;
+      }
     }
   }
   

@@ -5,6 +5,7 @@
 #include "asciiquarium_data.h"
 
 #define NB_FISHES 5
+#define NB_BUBBLES 10
 
 extern const unsigned char font[];
 
@@ -16,6 +17,14 @@ typedef struct {
   uint8_t color;
   const   fishData * fish;
 } fishElm;
+
+typedef struct {
+  int8_t x;
+  int8_t y;
+  int8_t startY;
+  int8_t speed;
+  int8_t subPos;
+} bubbleElm;
 
 typedef struct {
   char c;
