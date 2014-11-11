@@ -61,6 +61,10 @@ void asciiquarium()
   static unsigned int time = 0;
   time++;
   
+  /*******************/
+  /* Update elements */
+  /*******************/
+
   // Update fishes
   for(unsigned int f = 0; f < NB_FISHES; f++)
   {
@@ -76,7 +80,11 @@ void asciiquarium()
       newFish(fishes[f]);
     }
   }
-  
+
+  /*****************/
+  /* Draw elements */
+  /*****************/
+
   // Clear mapString
   memset(mapQuariumString, 0, sizeof(mapQuariumString));
   
@@ -138,6 +146,10 @@ void asciiquarium()
     }
   }
   
+  /********************/
+  /* Render on Screen */
+  /********************/
+
   // Render mapQuariumString on screen
   tft.setAddrWindow(0,0,319,239);
   // For each line
