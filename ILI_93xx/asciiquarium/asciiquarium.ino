@@ -84,7 +84,7 @@ void newBubble(fishElm const& fish)
 void newAlgae(algaElm & alga)
 {
   alga.x = rand()%SCREEN_WIDTH;
-  alga.height = 5;
+  alga.height = 3+rand()%8;
 }
 
 void asciiquarium_init()
