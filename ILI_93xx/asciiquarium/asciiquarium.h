@@ -4,6 +4,9 @@
 #include "Arduino.h"
 #include "asciiquarium_data.h"
 
+#define SCREEN_WIDTH  53
+#define SCREEN_HEIGHT 30
+
 #define NB_FISHES 5
 #define NB_BUBBLES 10
 #define NB_ALGAE 5

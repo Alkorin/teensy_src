@@ -10,7 +10,7 @@ ILI9341_t3 tft = ILI9341_t3(__CS, __DC);
 fishElm fishes[NB_FISHES];
 bubbleElm bubbles[NB_BUBBLES];
 algaElm algae[NB_ALGAE];
-mapStringElm mapQuariumString[53][30];
+mapStringElm mapQuariumString[SCREEN_WIDTH][SCREEN_HEIGHT];
 uint8_t waterOffset[3]={0,0,0};
 
 void setup() {
@@ -38,13 +38,13 @@ void newFish(fishElm & fish)
   fish.speed = 1 + rand()%5;
   if(fish.fish->dir == -1)
   {
-    fish.x = 53 + fish.fish->width/2 + rand()%5;
+    fish.x = SCREEN_WIDTH + fish.fish->width/2 + rand()%5;
   }
   else
   {
     fish.x = 0 - fish.fish->width/2 - rand()%5;
   }
-  fish.y = 4 + fish.fish->height/2 + rand()%(30 - 4 - fish.fish->height);
+  fish.y = 4 + fish.fish->height/2 + rand()%(SCREEN_HEIGHT - 4 - fish.fish->height);
   fish.subPos = 0;
   fish.color  = rand();
 }
@@ -67,7 +67,7 @@ void newBubble(fishElm const& fish)
         posX = fish.x + fish.fish->width/2;
       }
       posY = fish.y - 1;
-      if(posX >=0 && posX < 53 && posY >= 0 && posY < 30)
+      if(posX >=0 && posX < SCREEN_WIDTH && posY >= 0 && posY < SCREEN_HEIGHT)
       {
         bubbles[b].x = posX;
         bubbles[b].y = posY;
@@ -83,7 +83,7 @@ void newBubble(fishElm const& fish)
 
 void newAlgae(algaElm & alga)
 {
-  alga.x = rand()%53;
+  alga.x = rand()%SCREEN_WIDTH;
   alga.height = 5;
 }
 
@@ -158,7 +158,7 @@ void asciiquarium()
   memset(mapQuariumString, 0, sizeof(mapQuariumString));
   
   // Draw water
-  for(int x = 0; x < 53; x++)
+  for(int x = 0; x < SCREEN_WIDTH; x++)
   {
     mapQuariumString[x][0].c = '~';
     mapQuariumString[x][0].color = 14;
@@ -170,7 +170,7 @@ void asciiquarium()
       // Add -1, 0, +1 each 8 frames
       waterOffset[y] += rand()%3 - 1;
     }
-    for(unsigned int x = 0; x < 53; x++)
+    for(unsigned int x = 0; x < SCREEN_WIDTH; x++)
     {
       mapQuariumString[x][y+1].c = waterMap[y][(x+waterOffset[y])%32];
       mapQuariumString[x][y+1].color = 14;
@@ -203,8 +203,8 @@ void asciiquarium()
     algaElm & alga = algae[a];
     for(unsigned int y = 0; y < alga.height; y++)
     {
-      mapQuariumString[alga.x][29-y].c = (y%2)?')':'(';
-      mapQuariumString[alga.x][29-y].color = 2;
+      mapQuariumString[alga.x][(SCREEN_HEIGHT-1)-y].c = (y%2)?')':'(';
+      mapQuariumString[alga.x][(SCREEN_HEIGHT-1)-y].color = 2;
     }
   }
   
@@ -236,7 +236,7 @@ void asciiquarium()
           color = 1+((*fishColorMap++) + fishToDraw.color)%14;
         }
         
-        if(posX >=0 && posX < 53 && posY >= 0 && posY < 30)
+        if(posX >=0 && posX < SCREEN_WIDTH && posY >= 0 && posY < SCREEN_HEIGHT)
         {
           mapQuariumString[posX][posY].c = c;
           mapQuariumString[posX][posY].color = color;
@@ -253,12 +253,12 @@ void asciiquarium()
   // Render mapQuariumString on screen
   tft.setAddrWindow(0,0,319,239);
   // For each line
-  for(int mapY = 0; mapY < 30; mapY++)
+  for(int mapY = 0; mapY < SCREEN_HEIGHT; mapY++)
   {
     // Line 0 to 7
     for(int subY = 0; subY < 8; subY++)
     {
-      for(int x = 0; x < 53; x++)
+      for(int x = 0; x < SCREEN_WIDTH; x++)
       {
         char c = mapQuariumString[x][mapY].c;
         for(int pixel = 0; pixel < 5; pixel++)
@@ -276,4 +276,3 @@ void asciiquarium()
     }
   }
 }
-
