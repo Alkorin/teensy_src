@@ -81,6 +81,12 @@ void newBubble(fishElm const& fish)
   }
 }
 
+void setMapCharacter(int x, int y, char c, uint8_t color)
+{
+  mapQuariumString[x][y].c = c;
+  mapQuariumString[x][y].color = color;
+}
+
 void newAlgae(algaElm & alga)
 {
   alga.x = rand()%SCREEN_WIDTH;
@@ -160,8 +166,7 @@ void asciiquarium()
   // Draw water
   for(int x = 0; x < SCREEN_WIDTH; x++)
   {
-    mapQuariumString[x][0].c = '~';
-    mapQuariumString[x][0].color = 14;
+    setMapCharacter(x, 0, '~', 14);
   }
   for(int y = 0; y < 3; y++)
   {
@@ -172,8 +177,8 @@ void asciiquarium()
     }
     for(unsigned int x = 0; x < SCREEN_WIDTH; x++)
     {
-      mapQuariumString[x][y+1].c = waterMap[y][(x+waterOffset[y])%32];
-      mapQuariumString[x][y+1].color = 14;
+      char c = waterMap[y][(x+waterOffset[y])%32];
+      setMapCharacter(x, y+1, c, 14);
     }
   }
   
@@ -191,8 +196,8 @@ void asciiquarium()
       else
       {
         int size = (3 *(bubble.startY - bubble.y)) / (bubble.startY - 3);
-        mapQuariumString[bubble.x][bubble.y].c = (size == 0 ? '.' : (size == 1 ? 'o' : 'O'));
-        mapQuariumString[bubble.x][bubble.y].color = 14;
+        char c = (size == 0 ? '.' : (size == 1 ? 'o' : 'O'));
+        setMapCharacter(bubble.x, bubble.y, c, 14);
       }
     }
   }
@@ -203,8 +208,8 @@ void asciiquarium()
     algaElm & alga = algae[a];
     for(unsigned int y = 0; y < alga.height; y++)
     {
-      mapQuariumString[alga.x][(SCREEN_HEIGHT-1)-y].c = (y%2)?')':'(';
-      mapQuariumString[alga.x][(SCREEN_HEIGHT-1)-y].color = 2;
+      char c = (y%2)?')':'(';
+      setMapCharacter(alga.x, (SCREEN_HEIGHT-1)-y, c, 2);
     }
   }
   
@@ -238,8 +243,7 @@ void asciiquarium()
         
         if(posX >=0 && posX < SCREEN_WIDTH && posY >= 0 && posY < SCREEN_HEIGHT)
         {
-          mapQuariumString[posX][posY].c = c;
-          mapQuariumString[posX][posY].color = color;
+          setMapCharacter(posX, posY, c, color);
         }
         x++;
       } 
