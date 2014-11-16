@@ -9,6 +9,7 @@
 ILI9341_t3 tft = ILI9341_t3(__CS, __DC);
 fishElm fishes[NB_FISHES];
 bubbleElm bubbles[NB_BUBBLES];
+algaElm algae[NB_ALGAE];
 mapStringElm mapQuariumString[53][30];
 uint8_t waterOffset[3]={0,0,0};
 
@@ -80,6 +81,12 @@ void newBubble(fishElm const& fish)
   }
 }
 
+void newAlgae(algaElm & alga)
+{
+  alga.x = rand()%53;
+  alga.height = 5;
+}
+
 void asciiquarium_init()
 {
   for(unsigned int f = 0; f < NB_FISHES; f++)
@@ -89,6 +96,10 @@ void asciiquarium_init()
   for(unsigned int b = 0; b < NB_BUBBLES; b++)
   {
     bubbles[b].speed = 0; // 0 means no bubble
+  }
+  for(unsigned int a = 0; a < NB_ALGAE; a++)
+  {
+    newAlgae(algae[a]);
   }
 }
 
@@ -183,6 +194,17 @@ void asciiquarium()
         mapQuariumString[bubble.x][bubble.y].c = (size == 0 ? '.' : (size == 1 ? 'o' : 'O'));
         mapQuariumString[bubble.x][bubble.y].color = 14;
       }
+    }
+  }
+  
+  // Draw algae
+  for(unsigned int a = 0; a < NB_ALGAE; a++)
+  {
+    algaElm & alga = algae[a];
+    for(unsigned int y = 0; y < alga.height; y++)
+    {
+      mapQuariumString[alga.x][29-y].c = (y%2)?')':'(';
+      mapQuariumString[alga.x][29-y].color = 2;
     }
   }
   

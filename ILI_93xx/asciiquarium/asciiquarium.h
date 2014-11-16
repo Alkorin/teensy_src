@@ -6,6 +6,7 @@
 
 #define NB_FISHES 5
 #define NB_BUBBLES 10
+#define NB_ALGAE 5
 
 extern const unsigned char font[];
 
@@ -25,6 +26,11 @@ typedef struct {
   int8_t speed;
   int8_t subPos;
 } bubbleElm;
+
+typedef struct {
+  int8_t x;
+  int8_t height;
+} algaElm;
 
 typedef struct {
   char c;
