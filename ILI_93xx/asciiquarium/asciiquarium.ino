@@ -91,6 +91,7 @@ void newAlgae(algaElm & alga)
 {
   alga.x = rand()%SCREEN_WIDTH;
   alga.height = 3+rand()%8;
+  alga.dir = rand()%2;
 }
 
 void asciiquarium_init()
@@ -155,7 +156,17 @@ void asciiquarium()
       }
     }
   }
-
+  
+  // Update algae
+  for(unsigned int a = 0; a < NB_ALGAE; a++)
+  {
+    // Each 32 frames, update alga direction
+    if(!(time%32))
+    {
+      algae[a].dir = rand()%2;
+    }
+  }
+  
   /*****************/
   /* Draw elements */
   /*****************/
@@ -208,7 +219,7 @@ void asciiquarium()
     algaElm & alga = algae[a];
     for(unsigned int y = 0; y < alga.height; y++)
     {
-      char c = (y%2)?')':'(';
+      char c = ((alga.dir+y)%2)?')':'(';
       setMapCharacter(alga.x, (SCREEN_HEIGHT-1)-y, c, 2);
     }
   }

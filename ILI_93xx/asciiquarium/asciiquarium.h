@@ -33,6 +33,7 @@ typedef struct {
 typedef struct {
   int8_t x;
   int8_t height;
+  int8_t dir;
 } algaElm;
 
 typedef struct {
