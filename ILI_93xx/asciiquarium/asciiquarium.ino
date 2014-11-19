@@ -81,10 +81,14 @@ void newBubble(fishElm const& fish)
   }
 }
 
-void setMapCharacter(int x, int y, char c, uint8_t color)
+void setMapCharacter(int x, int y, char c, uint8_t color, uint8_t z = 0)
 {
-  mapQuariumString[x][y].c = c;
-  mapQuariumString[x][y].color = color;
+  if(z >= mapQuariumString[x][y].z)
+  {
+    mapQuariumString[x][y].c = c;
+    mapQuariumString[x][y].color = color;
+    mapQuariumString[x][y].z = z;
+  }
 }
 
 void newAlgae(algaElm & alga)

@@ -39,6 +39,7 @@ typedef struct {
 typedef struct {
   char c;
   uint8_t color;
+  uint8_t z;
 } mapStringElm;
 
 #define PUSH_COLOR(x)         while (((SPI0.SR) & (15 << 12)) > (3 << 12));         \
