@@ -5,6 +5,8 @@
 #define __CS 10
 #define __DC 9
 
+//#define DEBUG_FPS
+
 // global vars
 ILI9341_t3 tft = ILI9341_t3(__CS, __DC);
 fishElm fishes[NB_FISHES];
@@ -23,13 +25,18 @@ void setup() {
 }
 
 void loop(void) {
-  
-  //unsigned int startTime = micros();
-  asciiquarium();
-  //unsigned int endTime = micros();
+#ifdef DEBUG_FPS
+  unsigned int startTime = micros();
+#endif
 
-  //tft.setCursor(0, 232);
-  //tft.printf("%06d", endTime - startTime);
+  asciiquarium();
+
+#ifdef DEBUG_FPS
+  unsigned int endTime = micros();
+
+  tft.setCursor(0, 232);
+  tft.printf("%06d", endTime - startTime);
+#endif
 }
 
 void newFish(fishElm & fish)
