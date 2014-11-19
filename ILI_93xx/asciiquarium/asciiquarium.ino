@@ -45,6 +45,7 @@ void newFish(fishElm & fish)
     fish.x = 0 - fish.fish->width/2 - rand()%5;
   }
   fish.y = 4 + fish.fish->height/2 + rand()%(SCREEN_HEIGHT - 4 - fish.fish->height);
+  fish.z = rand()%256;
   fish.subPos = 0;
   fish.color  = rand();
 }
@@ -74,6 +75,7 @@ void newBubble(fishElm const& fish)
         bubbles[b].startY = posY;
         bubbles[b].subPos = 0;
         bubbles[b].speed = 2;
+        bubbles[b].z = fish.z;
       }
       
       break;
@@ -96,6 +98,7 @@ void newAlgae(algaElm & alga)
   alga.x = rand()%SCREEN_WIDTH;
   alga.height = 3+rand()%8;
   alga.dir = rand()%2;
+  alga.z = rand()%256;
 }
 
 void asciiquarium_init()
@@ -212,7 +215,7 @@ void asciiquarium()
       {
         int size = (3 *(bubble.startY - bubble.y)) / (bubble.startY - 3);
         char c = (size == 0 ? '.' : (size == 1 ? 'o' : 'O'));
-        setMapCharacter(bubble.x, bubble.y, c, 14);
+        setMapCharacter(bubble.x, bubble.y, c, 14, bubble.z);
       }
     }
   }
@@ -224,7 +227,7 @@ void asciiquarium()
     for(unsigned int y = 0; y < alga.height; y++)
     {
       char c = ((alga.dir+y)%2)?')':'(';
-      setMapCharacter(alga.x, (SCREEN_HEIGHT-1)-y, c, 2);
+      setMapCharacter(alga.x, (SCREEN_HEIGHT-1)-y, c, 2, alga.z);
     }
   }
   
@@ -258,7 +261,7 @@ void asciiquarium()
         
         if(posX >=0 && posX < SCREEN_WIDTH && posY >= 0 && posY < SCREEN_HEIGHT)
         {
-          setMapCharacter(posX, posY, c, color);
+          setMapCharacter(posX, posY, c, color, fishToDraw.z);
         }
         x++;
       } 
