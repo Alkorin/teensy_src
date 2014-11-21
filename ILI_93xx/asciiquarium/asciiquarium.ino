@@ -103,7 +103,7 @@ void setMapCharacter(int x, int y, char c, uint8_t color, uint8_t z = 0)
 void newAlgae(algaElm & alga)
 {
   alga.x = rand()%SCREEN_WIDTH;
-  alga.height = 3+rand()%8;
+  alga.height = 3+rand()%16;
   alga.dir = rand()%2;
   alga.z = rand()%256;
 }
@@ -174,8 +174,7 @@ void asciiquarium()
   // Update algae
   for(unsigned int a = 0; a < NB_ALGAE; a++)
   {
-    // Each 32 frames, update alga direction
-    if(!(time%32))
+    if(rand() > ((RAND_MAX/100) * 95)) // 5% luck to change algae
     {
       algae[a].dir = rand()%2;
     }

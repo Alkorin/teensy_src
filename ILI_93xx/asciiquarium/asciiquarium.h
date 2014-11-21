@@ -9,7 +9,7 @@
 
 #define NB_FISHES 5
 #define NB_BUBBLES 10
-#define NB_ALGAE 5
+#define NB_ALGAE 15
 
 extern const unsigned char font[];
 
