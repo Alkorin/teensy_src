@@ -1,6 +1,7 @@
 #include <SPI.h>
 #include <ILI9341_t3.h>
 #include "asciiquarium.h"
+#include "glcdfont.h"
 
 #define __CS 10
 #define __DC 9
