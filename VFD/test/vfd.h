@@ -18,27 +18,27 @@ class VFD {
     
     /* Instructions of CU20029 */
     // Display Clear -- 100µS
-    void clearScreen() { writeCommand(0x01); delayMicroseconds(99); }
+    void clearScreen() { sendCommand(0x01); delayMicroseconds(99); }
 
     // Cursor Home -- 666ns
-    void cursorHome() { writeCommand(0x02); }
+    void cursorHome() { sendCommand(0x02); }
 
     // EntryModeSet -- 666ns
 
     // DisplayOnOff --- 666ns
-    void displayOn(CURSOR_MODE c, BLINK_MODE b) { writeCommand(0x0C | c | b); }
-    void displayOff() { writeCommand(0x08); }
+    void displayOn(CURSOR_MODE c, BLINK_MODE b) { sendCommand(0x0C | c | b); }
+    void displayOff() { sendCommand(0x08); }
     
     // Cursor Display Shift -- 666ns
 
     // Function Set -- 666ns
-    void setMode(CPU_INTERFACE_MODE i) { writeCommand(0x30 | i); }
+    void setMode(CPU_INTERFACE_MODE i) { sendCommand(0x30 | i); }
     
     // Brightness control -- 666ns (need to send FunctionSet before)
 
 
     /* Helpers */
-    void writeChar(char c) { writeData(c); }
+    void writeChar(char c) { sendData(c); }
     void writeData(const char * d, size_t len);
     void writeString(const char * s);
 
@@ -46,8 +46,8 @@ class VFD {
 
 
   private:
-    void writeCommand(uint8_t c);
-    void writeData(uint8_t d);
+    void sendCommand(uint8_t c);
+    void sendData(uint8_t d);
   
     uint8_t pinEnable;
     uint8_t pinRS;

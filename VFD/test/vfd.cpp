@@ -32,7 +32,7 @@ void VFD::init()
   clearScreen();
 }
 
-void VFD::writeCommand(uint8_t c)
+void VFD::sendCommand(uint8_t c)
 {
   digitalWrite(pinRS, 0);
   digitalWrite(pinRW, 0);
@@ -43,7 +43,7 @@ void VFD::writeCommand(uint8_t c)
   digitalWriteFast(pinEnable, 0);
 }
 
-void VFD::writeData(uint8_t c)
+void VFD::sendData(uint8_t c)
 {
   digitalWrite(pinRS, 1);
   digitalWrite(pinRW, 0);
