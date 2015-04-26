@@ -35,6 +35,11 @@ class VFD {
     void setMode(CPU_INTERFACE_MODE i) { sendCommand(0x30 | i); }
     
     // Brightness control -- 666ns (need to send FunctionSet before)
+    
+    // Set CG RAM Address -- 666 ns
+    
+    // Set DD Ram Address -- 666 ns
+    void setCursorAddress(uint8_t a) { sendCommand(0x80 | a); }
 
 
     /* Helpers */
