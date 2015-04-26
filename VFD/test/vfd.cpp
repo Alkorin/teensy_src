@@ -39,7 +39,6 @@ void VFD::sendCommand(uint8_t c)
 
   GPIOD_PDOR = c;
   digitalWriteFast(pinEnable, 1);
-  delayMicroseconds(1);
   digitalWriteFast(pinEnable, 0);
 }
 
@@ -50,7 +49,6 @@ void VFD::sendData(uint8_t c)
 
   GPIOD_PDOR = c;
   digitalWriteFast(pinEnable, 1);
-  delayMicroseconds(1);
   digitalWriteFast(pinEnable, 0);
 }
 
@@ -63,7 +61,6 @@ void VFD::writeString(const char * s)
   {
       GPIOD_PDOR = c;
       digitalWrite(pinEnable, 1);
-      delayMicroseconds(1);
       digitalWrite(pinEnable, 0);  
   }
 }
@@ -76,7 +73,6 @@ void VFD::writeData(const char * s, size_t len)
   {
       GPIOD_PDOR = *s++;
       digitalWrite(pinEnable, 1);
-      delayMicroseconds(1);
       digitalWrite(pinEnable, 0);  
   }
 }

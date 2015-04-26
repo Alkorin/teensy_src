@@ -18,7 +18,7 @@ class VFD {
     
     /* Instructions of CU20029 */
     // Display Clear -- 100µS
-    void clearScreen() { sendCommand(0x01); delayMicroseconds(99); }
+    void clearScreen() { sendCommand(0x01); delayMicroseconds(100); }
 
     // Cursor Home -- 666ns
     void cursorHome() { sendCommand(0x02); }
