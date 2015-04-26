@@ -12,6 +12,8 @@ class VFD_Buffered : private VFD {
     
     void writeString(const char * s);
     void writeChar(char c);
+    void clearScreen();
+    void setPos(uint8_t line, uint8_t pos) { currentOffset = line * NB_CHARS + pos; }
 
     // Update VFD
     void show();

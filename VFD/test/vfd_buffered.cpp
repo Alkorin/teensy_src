@@ -2,10 +2,15 @@
 
 VFD_Buffered::VFD_Buffered(uint8_t _pinEnable, uint8_t _pinRS, uint8_t _pinRW):VFD(_pinEnable, _pinRS, _pinRW)
 {
-  currentOffset = 0;
-  memset(buffer, '*', sizeof(buffer));
+  clearScreen();
+  init();
+  show();
+}
 
-  VFD::init();
+void VFD_Buffered::clearScreen()
+{
+  currentOffset = 0;
+  memset(buffer, ' ', sizeof(buffer));
 }
 
 void VFD_Buffered::writeString(const char * s)
@@ -28,8 +33,8 @@ void VFD_Buffered::writeChar(char c)
 
 void VFD_Buffered::show()
 {
-  cursorHome();
+  VFD::setCursorAddress(0x0);
   VFD::writeData(&buffer[0], 20);
-
-  currentOffset = 0;
+  VFD::setCursorAddress(0x40);
+  VFD::writeData(&buffer[20], 20);
 }
