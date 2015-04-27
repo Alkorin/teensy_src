@@ -4,6 +4,7 @@
 VFD_Buffered vfd(0, 1, 3);
 
 void setup() {
+  vfd.writeString ("     ** VFD **      ");
 }
 
 void loop(void) {
