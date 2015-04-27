@@ -26,7 +26,12 @@ void VFD_Buffered::writeChar(char c)
 {
   if(c == '\r')
   {
-    currentOffset = (NB_CHARS * ((currentOffset / NB_CHARS)+1));
+    uint8_t newOffset = (NB_CHARS * ((currentOffset / NB_CHARS)+1));
+    for(; currentOffset < newOffset; currentOffset++)
+    {
+      buffer[currentOffset] = ' ';
+    }
+    currentOffset = newOffset;
   }
   else
   {
