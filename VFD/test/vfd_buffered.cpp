@@ -24,7 +24,14 @@ void VFD_Buffered::writeString(const char * s)
 
 void VFD_Buffered::writeChar(char c)
 {
-  buffer[currentOffset++] = c;
+  if(c == '\r')
+  {
+    currentOffset = (NB_CHARS * ((currentOffset / NB_CHARS)+1));
+  }
+  else
+  {
+    buffer[currentOffset++] = c;
+  }
   if(currentOffset == NB_LINES*NB_CHARS)
   {
     currentOffset = 0;
