@@ -11,7 +11,7 @@
 ILI9341_t3 tft = ILI9341_t3(__CS, __DC);
 
 snowflakeElm snowflakes[NB_SNOWFLAKES];
-uint8_t      snowLevel[320];
+level        snowLevel[320];
 
 pixelElm frameBuffer[240][160];
 
@@ -89,7 +89,8 @@ void snow_init()
   }
   for(int i = 0; i < 320; i++)
   {
-    snowLevel[i] = 239;
+    snowLevel[i].pos = 239;
+    snowLevel[i].subPos = 255;
   }
 }
 
@@ -107,10 +108,45 @@ void snow()
     snowflakeElm & snowflake = snowflakes[s];
     
     snowflake.y++;
-    if(snowflake.y >= snowLevel[snowflake.x])
+    if(snowflake.y >= snowLevel[snowflake.x].pos)
     {
-      snowLevel[snowflake.x]--;
-      newSnowflake(snowflake);
+      int deltaL = 0, deltaR = 0;
+      if(snowflake.x > 0)
+      {
+        // Look at left
+        deltaL = snowLevel[snowflake.x - 1].pos - snowLevel[snowflake.x].pos;
+      }
+      if(snowflake.x < 319)
+      {
+        // Look at rigtht
+        deltaR = snowLevel[snowflake.x + 1].pos - snowLevel[snowflake.x].pos;
+      }
+      if(deltaL > 1 && deltaL >= deltaR)
+      {
+        snowflake.x--;
+      }
+      else if(deltaR > 1 && deltaR >= deltaL)
+      {
+        snowflake.x++;
+      }
+      else
+      {
+        snowLevel[snowflake.x].pos--;
+        newSnowflake(snowflake);
+      }
+    }
+  }
+  
+  for(int i = 0; i < 320; i++)
+  {
+    if(snowLevel[i].pos < 239)
+    {
+      snowLevel[i].subPos--;
+      if(snowLevel[i].subPos == 0)
+      {
+        snowLevel[i].subPos = 255;
+        snowLevel[i].pos++;
+      }
     }
   }
   
@@ -135,21 +171,25 @@ void snow()
   {
     for(int x = 0; x < 160; x++)
     {
-      if(y <= snowLevel[2*x])
+      if(y <= snowLevel[2*x].pos)
       {
         PUSH_COLOR(colorMap[frameBuffer[y][x].color1]);
       }
       else
       {
-        PUSH_COLOR(colorMap[15]);
+        uint16_t lum = snowLevel[2*x].pos;
+        uint16_t color = ((lum & 0xF8) << 8) | ((lum & 0xFC) << 3) | (lum >> 3);
+        PUSH_COLOR(color);
       }
-      if(y <= snowLevel[2*x+1])
+      if(y <= snowLevel[2*x+1].pos)
       {
         PUSH_COLOR(colorMap[frameBuffer[y][x].color2]);
       }
       else
       {
-        PUSH_COLOR(colorMap[15]);
+        uint16_t lum = snowLevel[2*x+1].pos;
+        uint16_t color = ((lum & 0xF8) << 8) | ((lum & 0xFC) << 3) | (lum >> 3);
+        PUSH_COLOR(color);
       }      
     }
   }

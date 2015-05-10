@@ -1,7 +1,7 @@
 #ifndef __SNOW_H__
 #define __SNOW_H__
 
-#define NB_SNOWFLAKES 100
+#define NB_SNOWFLAKES 500
 
 typedef struct {
   uint16_t x;
@@ -9,6 +9,11 @@ typedef struct {
   int8_t  speed;
   int8_t  subPos;
 } snowflakeElm;
+
+typedef struct {
+  uint8_t  pos;
+  uint8_t  subPos;
+} level;
 
 typedef struct {
   uint8_t color1 : 4;
