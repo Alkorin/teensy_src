@@ -74,7 +74,7 @@ void bumper()
 
       unsigned int color = rainbowColors[index%180];
 
-      while (((SPI0.SR) & (15 << 12)) > (3 << 12));
+      while (((SPI0_SR) & (15 << 12)) > (3 << 12));
       SPI0_PUSHR = (color) | (0x00010000) | SPI_PUSHR_CTAS(1);
     }
   }

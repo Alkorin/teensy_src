@@ -68,7 +68,7 @@ void FASTRUN plasma1()
       uint8_t b = fastUCosineCalc(3*v+256);
       
       // Push data to SPI
-      while (((SPI0.SR) & (15 << 12)) > (3 << 12)) ;
+      while (((SPI0_SR) & (15 << 12)) > (3 << 12)) ;
       SPI0_PUSHR = (((r&0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3)) | (0x00010000) | SPI_PUSHR_CTAS(1);
     }
   }
