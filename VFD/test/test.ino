@@ -3,6 +3,9 @@
 
 VFD_Buffered vfd(0, 1, 3);
 
+void yield() {
+}
+
 void setup() {
   vfd.writeString ("     ** VFD **      ");
 }
