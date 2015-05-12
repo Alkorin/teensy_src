@@ -25,7 +25,7 @@ void VFD::init()
   pinMode(pinRW, OUTPUT);
   
   // Set enable to low
-  digitalWrite(pinEnable, 0);
+  digitalWriteFast(pinEnable, 0);
   
   setMode(BITS_8);
   displayOn(CURSOR_OFF, BLINK_OFF);
@@ -34,8 +34,8 @@ void VFD::init()
 
 void VFD::sendCommand(uint8_t c)
 {
-  digitalWrite(pinRS, 0);
-  digitalWrite(pinRW, 0);
+  digitalWriteFast(pinRS, 0);
+  digitalWriteFast(pinRW, 0);
 
   GPIOD_PDOR = c;
   digitalWriteFast(pinEnable, 1);
@@ -44,8 +44,8 @@ void VFD::sendCommand(uint8_t c)
 
 void VFD::sendData(uint8_t c)
 {
-  digitalWrite(pinRS, 1);
-  digitalWrite(pinRW, 0);
+  digitalWriteFast(pinRS, 1);
+  digitalWriteFast(pinRW, 0);
 
   GPIOD_PDOR = c;
   digitalWriteFast(pinEnable, 1);
@@ -55,24 +55,24 @@ void VFD::sendData(uint8_t c)
 void VFD::writeString(const char * s)
 {
   char c;
-  digitalWrite(pinRS, 1);
-  digitalWrite(pinRW, 0);
+  digitalWriteFast(pinRS, 1);
+  digitalWriteFast(pinRW, 0);
   while((c = *s++))
   {
       GPIOD_PDOR = c;
-      digitalWrite(pinEnable, 1);
-      digitalWrite(pinEnable, 0);  
+      digitalWriteFast(pinEnable, 1);
+      digitalWriteFast(pinEnable, 0);  
   }
 }
 
 void VFD::writeData(const char * s, size_t len)
 {
-  digitalWrite(pinRS, 1);
-  digitalWrite(pinRW, 0);
+  digitalWriteFast(pinRS, 1);
+  digitalWriteFast(pinRW, 0);
   while(len--)
   {
       GPIOD_PDOR = *s++;
-      digitalWrite(pinEnable, 1);
-      digitalWrite(pinEnable, 0);  
+      digitalWriteFast(pinEnable, 1);
+      digitalWriteFast(pinEnable, 0);  
   }
 }
