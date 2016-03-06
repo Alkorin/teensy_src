@@ -218,6 +218,10 @@ void asciiquarium()
 
   // Clear mapString
   memset(mapQuariumString, 0, sizeof(mapQuariumString));
+  for(int x = 0; x < SCREEN_WIDTH; x++)
+  {
+    setMapCharacter(x, 0, '~', 14);
+  }
   
   // Draw water
   for(int x = 0; x < SCREEN_WIDTH; x++)
