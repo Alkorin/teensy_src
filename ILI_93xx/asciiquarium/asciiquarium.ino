@@ -7,6 +7,7 @@
 #define __DC 9
 
 //#define DEBUG_FPS
+//#define DEBUG_TIMINGS
 
 // global vars
 ILI9341_t3 tft = ILI9341_t3(__CS, __DC);
@@ -23,6 +24,14 @@ void setup() {
   
   tft.setRotation(1);
   tft.setTextColor(0xFFFF,0x0000);
+#ifdef DEBUG_TIMINGS
+  pinMode(0, OUTPUT);
+  pinMode(1, OUTPUT);
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+#endif
 }
 
 void loop(void) {
@@ -30,7 +39,15 @@ void loop(void) {
   unsigned int startTime = micros();
 #endif
 
+#ifdef DEBUG_TIMINGS
+  digitalWriteFast(0, 1);
+#endif
+
   asciiquarium();
+
+#ifdef DEBUG_TIMINGS
+  digitalWriteFast(0, 0);
+#endif
 
 #ifdef DEBUG_FPS
   unsigned int endTime = micros();
@@ -135,6 +152,10 @@ void asciiquarium()
   /* Update elements */
   /*******************/
 
+#ifdef DEBUG_TIMINGS
+  digitalWriteFast(1, 1);
+#endif
+
   // Update fishes
   for(unsigned int f = 0; f < NB_FISHES; f++)
   {
@@ -180,10 +201,18 @@ void asciiquarium()
       algae[a].dir = rand()%2;
     }
   }
+
+#ifdef DEBUG_TIMINGS
+  digitalWriteFast(1, 0);
+#endif
   
   /*****************/
   /* Draw elements */
   /*****************/
+
+#ifdef DEBUG_TIMINGS
+  digitalWriteFast(2, 1);
+#endif
 
   // Clear mapString
   memset(mapQuariumString, 0, sizeof(mapQuariumString));
@@ -274,10 +303,18 @@ void asciiquarium()
       } 
     }
   }
-  
+
+#ifdef DEBUG_TIMINGS
+  digitalWriteFast(2, 0);
+#endif
+
   /********************/
   /* Render on Screen */
   /********************/
+
+#ifdef DEBUG_TIMINGS
+  digitalWriteFast(3, 1);
+#endif
 
   // Render mapQuariumString on screen
   tft.setAddrWindow(0,0,319,239);
@@ -304,4 +341,8 @@ void asciiquarium()
       PUSH_COLOR(0);
     }
   }
+
+#ifdef DEBUG_TIMINGS
+  digitalWriteFast(3, 0);
+#endif
 }
