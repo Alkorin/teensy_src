@@ -14,18 +14,24 @@ ILI9341_t3 tft = ILI9341_t3(__CS, __DC);
 fishElm fishes[NB_FISHES];
 bubbleElm bubbles[NB_BUBBLES];
 algaElm algae[NB_ALGAE];
-mapStringElm mapQuariumString[SCREEN_WIDTH][SCREEN_HEIGHT];
+mapStringElm mapQuariumString[2][SCREEN_WIDTH][SCREEN_HEIGHT];
+mapStringElm (*curMapQuariumString)[SCREEN_HEIGHT];
+mapStringElm (*oldMapQuariumString)[SCREEN_HEIGHT];
+unsigned int lastFrameTime;
+
 uint8_t waterOffset[3]={0,0,0};
 
 void setup() {
   tft.begin();
-  
-  asciiquarium_init();
-  
+  tft.fillScreen(0);
   tft.setRotation(1);
+
 #ifdef DEBUG_FPS
   tft.setTextColor(0xFFFF,0x0000);
 #endif
+  
+  asciiquarium_init();
+
 #ifdef DEBUG_TIMINGS
   pinMode(0, OUTPUT);
   pinMode(1, OUTPUT);
@@ -37,6 +43,10 @@ void setup() {
 }
 
 void loop(void) {
+ // Limit to 50FPS
+ while((micros() - lastFrameTime) < 20000);
+ lastFrameTime = micros();
+
 #ifdef DEBUG_FPS
   unsigned int startTime = micros();
 #endif
@@ -101,7 +111,7 @@ void newBubble(fishElm const& fish)
         bubbles[b].y = posY;
         bubbles[b].startY = posY;
         bubbles[b].subPos = 0;
-        bubbles[b].speed = 2;
+        bubbles[b].speed = 6;
         bubbles[b].z = fish.z;
       }
       
@@ -112,11 +122,13 @@ void newBubble(fishElm const& fish)
 
 void setMapCharacter(int x, int y, char c, uint8_t color, uint8_t z = 0)
 {
-  if(z >= mapQuariumString[x][y].z)
+  mapStringElm & elm = curMapQuariumString[x][y];
+  
+  if(z >= elm.z)
   {
-    mapQuariumString[x][y].c = c;
-    mapQuariumString[x][y].color = color;
-    mapQuariumString[x][y].z = z;
+    elm.z = z;
+    elm.c = c;
+    elm.color = color;
   }
 }
 
@@ -130,6 +142,10 @@ void newAlgae(algaElm & alga)
 
 void asciiquarium_init()
 {
+  memset(mapQuariumString, 0, sizeof(mapQuariumString));
+  curMapQuariumString = mapQuariumString[0];
+  oldMapQuariumString = mapQuariumString[1];
+    
   for(unsigned int f = 0; f < NB_FISHES; f++)
   {
     newFish(fishes[f]);
@@ -217,7 +233,7 @@ void asciiquarium()
 #endif
 
   // Clear mapString
-  memset(mapQuariumString, 0, sizeof(mapQuariumString));
+  memset(curMapQuariumString, 0, sizeof(mapQuariumString[0]));
   for(int x = 0; x < SCREEN_WIDTH; x++)
   {
     setMapCharacter(x, 0, '~', 14);
@@ -248,7 +264,7 @@ void asciiquarium()
     bubbleElm & bubble = bubbles[b];
     if(bubble.speed)
     {
-      if(mapQuariumString[bubble.x][bubble.y].c == '~' || mapQuariumString[bubble.x][bubble.y].c == '^')
+      if(curMapQuariumString[bubble.x][bubble.y].c == '~' || curMapQuariumString[bubble.x][bubble.y].c == '^')
       {
         // Bubble hit water level, delete it
         bubble.speed = 0;
@@ -323,28 +339,26 @@ void asciiquarium()
 #endif
 
   // Render mapQuariumString on screen
-  tft.setAddrWindow(0,0,319,239);
-  // For each line
   for(int mapY = 0; mapY < SCREEN_HEIGHT; mapY++)
   {
-    // Line 0 to 7
-    for(int subY = 0; subY < 8; subY++)
+    for(int mapX = 0; mapX < SCREEN_WIDTH; mapX++)
     {
-      for(int x = 0; x < SCREEN_WIDTH; x++)
+      // If we have something to draw (previous != current)
+      if((curMapQuariumString[mapX][mapY].c != oldMapQuariumString[mapX][mapY].c) || (curMapQuariumString[mapX][mapY].color != oldMapQuariumString[mapX][mapY].color))
       {
-        char c = mapQuariumString[x][mapY].c;
-        for(int pixel = 0; pixel < 5; pixel++)
+        char c = curMapQuariumString[mapX][mapY].c;
+        tft.setAddrWindow(6*mapX,8*mapY,6*mapX+4,8*mapY+7);
+        // Line 0 to 7
+        for(int subY = 0; subY < 8; subY++)
         {
-          unsigned char fontData = font[(c*5)+pixel];
-          uint16_t color = (fontData&(1<<(subY)))?colorMap[mapQuariumString[x][mapY].color]:0x0000;
-          PUSH_COLOR(color);
+          for(int pixel = 0; pixel < 5; pixel++)
+          {
+            unsigned char fontData = font[(c*5)+pixel];
+            uint16_t color = (fontData&(1<<(subY)))?colorMap[curMapQuariumString[mapX][mapY].color]:0x0000;
+            PUSH_COLOR(color);
+          }
         }
-        // Black column between each chars
-        PUSH_COLOR(0x00);
       }
-      // Filler for end of screen (2 last column of each line)
-      PUSH_COLOR(0);
-      PUSH_COLOR(0);
     }
   }
 

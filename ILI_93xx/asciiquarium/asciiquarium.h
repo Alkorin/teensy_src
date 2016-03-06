@@ -40,9 +40,9 @@ typedef struct {
 } algaElm;
 
 typedef struct {
+  uint8_t z;
   char c;
   uint8_t color;
-  uint8_t z;
 } mapStringElm;
 
 #define PUSH_COLOR(x)         while (((SPI0_SR) & (15 << 12)) > (3 << 12));         \
