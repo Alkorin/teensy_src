@@ -23,7 +23,9 @@ void setup() {
   asciiquarium_init();
   
   tft.setRotation(1);
+#ifdef DEBUG_FPS
   tft.setTextColor(0xFFFF,0x0000);
+#endif
 #ifdef DEBUG_TIMINGS
   pinMode(0, OUTPUT);
   pinMode(1, OUTPUT);
