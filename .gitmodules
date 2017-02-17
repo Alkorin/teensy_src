@@ -1,3 +1,6 @@
 [submodule "libraries/VFD"]
 	path = libraries/VFD
 	url = git@github.com:Alkorin/vfd-library.git
+[submodule "NixieClock"]
+	path = NixieClock
+	url = git@github.com:Alkorin/NixieClock.git
