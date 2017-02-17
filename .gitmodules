@@ -4,3 +4,6 @@
 [submodule "NixieClock"]
 	path = NixieClock
 	url = git@github.com:Alkorin/NixieClock.git
+[submodule "DagomaMetrics"]
+	path = DagomaMetrics
+	url = git@github.com:Alkorin/DagomaMetrics.git
