@@ -1,5 +1,5 @@
 #include "Arduino.h"
-#include "vfd_buffered.h"
+#include <vfd_buffered.h>
 
 VFD_Buffered vfd(0, 1, 3);
 
@@ -8,6 +8,7 @@ void yield() {
 
 void setup() {
   vfd.writeString ("     ** VFD **      ");
+  vfd.show();
 }
 
 void loop(void) {
