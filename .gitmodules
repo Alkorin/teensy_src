@@ -1,0 +1,3 @@
+[submodule "libraries/VFD"]
+	path = libraries/VFD
+	url = git@github.com:Alkorin/vfd-library.git
