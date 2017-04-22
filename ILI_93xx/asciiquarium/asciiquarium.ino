@@ -362,6 +362,13 @@ void asciiquarium()
     }
   }
 
+  // Swap buffers
+  {
+    mapStringElm (*tmpMapQuariumString)[SCREEN_HEIGHT] = oldMapQuariumString;
+    oldMapQuariumString = curMapQuariumString;
+    curMapQuariumString = tmpMapQuariumString;
+  }
+
 #ifdef DEBUG_TIMINGS
   digitalWriteFast(3, 0);
 #endif
